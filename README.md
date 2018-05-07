@@ -10,30 +10,36 @@ ItemCF, 基于同一用户对不同物品评分的相似性来衡量物品之间
 
 Case: ItemCF - Bayer Product Recommendation, Model Evaluaton: Precision, ROC/AUC, Confusion Matrix
 
-step1 output (user vector):
+### step1
 
-user1, item1:pref, item2:pref, item3:pref
+</br> input to map: 1, 105, 5
+</br> map output(reduce input): user1, item1:pref; user1, item2:pref; ...
+</br> reduce output: (user-item evaluation matrix) merge all of things for the same user user1 then output: user1, item1:pref, item2:pref, item3:pref...
 
-step2 output (based on user vector to cooccurrence matrix):
-item1:item1 1
-item1:item2 1
-item1:item3 1
-item2:item1 1
-item2:item2 1
-item2:item3 1
-item3:item1 1
-item3:item2 1
-item3:item3 1
+### step2
 
-step3 output1:
+get map input from step1
+</br> map output(reduce input): item1:item1 1; item1:item2 1; ... (所有物品的组合对儿，每一对儿后面都是1)
+</br> reduce output (based on user-item evaluation matrix to construct the item-item cooccurrence matrix):
+</br> item1:item1 1
+</br> item1:item2 2
+</br> item1:item3 3
+</br> item2:item1 1
+</br> item2:item2 5
+</br> item2:item3 1
+</br> item3:item1 4
+</br> item3:item2 1
+</br> item3:item3 1
 
-item1, user1:pref, user2:pref, user3:pref, user4:pref, user5:pref
+### step3 output1:
+
+从step1 output处理后得到item1, user1:pref, user2:pref, user3:pref, user4:pref, user5:pref
 
 step3 output2:
 
-exactly like step2 output
+从step2 otput处理后得到exactly the same step2 output
 
-step4:
+### step4:
 
 multiply
 
